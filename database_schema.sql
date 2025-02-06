@@ -3,7 +3,7 @@ CREATE TABLE Utente (
     ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(50) NOT NULL,
     cognome VARCHAR(50) NOT NULL,
-    email VARCHAR(100) NOT NULL,
+    email VARCHAR(255) NOT NULL,
     passwordH VARCHAR(255) NOT NULL,
     via VARCHAR(100) NOT NULL,
     numero VARCHAR(10) NOT NULL,
@@ -23,49 +23,53 @@ CREATE TABLE Alias (
 );
 
 -- Tabella CartaPagamento
+-- scadenza DATE o CHAR(5)?
 CREATE TABLE CartaPagamento (
     numeroCarta CHAR(19) PRIMARY KEY,
-    scadenza DATE NOT NULL,
+    --scadenza DATE NOT NULL,
+    scadenza CHAR(5) NOT NULL,
     proprietario VARCHAR(100) NOT NULL,
     utente_ID INT NOT NULL,
     FOREIGN KEY (utente_ID) REFERENCES Utente(ID),
-    CHECK (numeroCarta REGEXP '^[0-9]+$')
+    CHECK (numeroCarta REGEXP '^[0-9]{8, 19}$'),
+    CHECK (proprietario REGEXP '^[A-Za-z ]+$')
 );
 
 -- Tabella Fattura
 CREATE TABLE Fattura (
     numeroFattura INT AUTO_INCREMENT PRIMARY KEY,
     dataFattura DATE NOT NULL,
-    -- Utilizzo di ENUM per limitare le modalità di pagamento
+    -- Non sono sicuro che questo attributo vada lasciato (bonifico sicuramente richiederebbe modifiche, paypal non so)
     modalitaPagamento ENUM('carta', 'bonifico', 'paypal') NOT NULL,
     prezzo DECIMAL(10,2) NOT NULL,
     CHECK (prezzo > 0)
 );
 
 -- Tabella Lingua
+-- TODO: La chiave ora è il codice della lingua, vanno cambiate le query
 CREATE TABLE Lingua (
     codiceLinuga CHAR(2) PRIMARY KEY,
-    nomeLingua VARCHAR(50) NOT NULL
+    nomeLingua VARCHAR(30) NOT NULL
 );
 
 -- Tabella Lavoro
 CREATE TABLE Lavoro (
-    ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    titolo VARCHAR(150) NOT NULL,
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    titolo VARCHAR(255) NOT NULL,
     rating DECIMAL(3,2) NOT NULL,
     dataPubblicazione DATE NOT NULL,
     numeroCapitoli INT NOT NULL,
     utente_ID INT NOT NULL,
-    nomeLingua VARCHAR(50) NOT NULL,
+    codiceLingua VARCHAR(50) NOT NULL,
     FOREIGN KEY (utente_ID) REFERENCES Utente(ID),
-    FOREIGN KEY (nomeLingua) REFERENCES Lingua(codiceLingua),
+    FOREIGN KEY (codiceLingua) REFERENCES Lingua(codiceLingua),
     CHECK (rating BETWEEN 0 AND 5),
     CHECK (numeroCapitoli > 0)
 );
 
 -- Tabella InVendita
 CREATE TABLE InVendita (
-    lavoro_ID INT NOT NULL PRIMARY KEY,
+    lavoro_ID INT PRIMARY KEY,
     prezzoDiPartenza DECIMAL(10,2) NOT NULL,
     scadenza DATE NOT NULL,
     FOREIGN KEY (lavoro_ID) REFERENCES Lavoro(ID),
@@ -75,7 +79,7 @@ CREATE TABLE InVendita (
 
 -- Tabella Privato
 CREATE TABLE Privato (
-    lavoro_ID INT NOT NULL PRIMARY KEY,
+    lavoro_ID INT PRIMARY KEY,
     numeroFattura INT NOT NULL,
     FOREIGN KEY (lavoro_ID) REFERENCES Lavoro(ID),
     FOREIGN KEY (numeroFattura) REFERENCES Fattura(numeroFattura)
@@ -83,7 +87,7 @@ CREATE TABLE Privato (
 
 -- Tabella Pubblico
 CREATE TABLE Pubblico (
-    lavoro_ID INT NOT NULL PRIMARY KEY,
+    lavoro_ID INT PRIMARY KEY,
     visualizzazioni INT NOT NULL,
     FOREIGN KEY (lavoro_ID) REFERENCES Lavoro(ID),
     CHECK (visualizzazioni >= 0)
@@ -93,7 +97,7 @@ CREATE TABLE Pubblico (
 CREATE TABLE Offerta (
     lavoro_ID INT NOT NULL,
     ID INT NOT NULL,
-    data DATE NOT NULL,
+    dataOfferta DATE NOT NULL,
     somma DECIMAL(10,2) NOT NULL,
     utente_ID INT NOT NULL,
     PRIMARY KEY (lavoro_ID, ID),
@@ -113,9 +117,9 @@ CREATE TABLE MiPiace (
 
 -- Tabella Commento
 CREATE TABLE Commento (
-    ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    ID INT AUTO_INCREMENT PRIMARY KEY,
     contenuto TEXT NOT NULL,
-    data DATE NOT NULL,
+    dataCommento DATE NOT NULL,
     utente_ID INT NOT NULL,
     lavoro_ID INT NOT NULL,
     FOREIGN KEY (utente_ID) REFERENCES Utente(ID),
@@ -139,11 +143,11 @@ CREATE TABLE Capitolo (
     contenuto TEXT NOT NULL,
     PRIMARY KEY (lavoro_ID, numeroCapitolo),
     FOREIGN KEY (lavoro_ID) REFERENCES Lavoro(ID)
-) ENGINE=InnoDB;
+);
 
 -- Tabella Tag
 CREATE TABLE Tag (
-    ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    ID INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(50) NOT NULL
 );
 
