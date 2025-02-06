@@ -48,7 +48,7 @@ CREATE TABLE Fattura (
 -- Tabella Lingua
 -- TODO: La chiave ora è il codice della lingua, vanno cambiate le query
 CREATE TABLE Lingua (
-    codiceLinuga CHAR(2) PRIMARY KEY,
+    codiceLingua CHAR(2) PRIMARY KEY,
     nomeLingua VARCHAR(30) NOT NULL
 );
 
@@ -160,9 +160,7 @@ CREATE TABLE ClassificatoDa (
     FOREIGN KEY (tag_ID) REFERENCES Tag(ID)
 );
 
---------------------------------------------------
 -- Trigger per controllare che un lavoro non sia in più tabelle di stato
---------------------------------------------------
 
 DELIMITER //
 
