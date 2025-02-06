@@ -26,7 +26,7 @@ CREATE TABLE Alias (
 -- scadenza DATE o CHAR(5)?
 CREATE TABLE CartaPagamento (
     numeroCarta CHAR(19) PRIMARY KEY,
-    --scadenza DATE NOT NULL,
+    -- scadenza DATE NOT NULL,
     scadenza CHAR(5) NOT NULL,
     proprietario VARCHAR(100) NOT NULL,
     utente_ID INT NOT NULL,
@@ -38,7 +38,7 @@ CREATE TABLE CartaPagamento (
 -- Tabella Fattura
 CREATE TABLE Fattura (
     numeroFattura INT AUTO_INCREMENT PRIMARY KEY,
-    dataFattura DATE NOT NULL,
+    dataFattura TIMESTAMP NOT NULL,
     -- Non sono sicuro che questo attributo vada lasciato (bonifico sicuramente richiederebbe modifiche, paypal non so)
     modalitaPagamento ENUM('carta', 'bonifico', 'paypal') NOT NULL,
     prezzo DECIMAL(10,2) NOT NULL,
@@ -56,14 +56,13 @@ CREATE TABLE Lingua (
 CREATE TABLE Lavoro (
     ID INT AUTO_INCREMENT PRIMARY KEY,
     titolo VARCHAR(255) NOT NULL,
-    rating DECIMAL(3,2) NOT NULL,
-    dataPubblicazione DATE NOT NULL,
+    rating VARCHAR(10) NOT NULL,
+    dataPubblicazione TIMESTAMP NOT NULL,
     numeroCapitoli INT NOT NULL,
     utente_ID INT NOT NULL,
     codiceLingua VARCHAR(50) NOT NULL,
     FOREIGN KEY (utente_ID) REFERENCES Utente(ID),
     FOREIGN KEY (codiceLingua) REFERENCES Lingua(codiceLingua),
-    CHECK (rating BETWEEN 0 AND 5),
     CHECK (numeroCapitoli > 0)
 );
 
@@ -71,7 +70,7 @@ CREATE TABLE Lavoro (
 CREATE TABLE InVendita (
     lavoro_ID INT PRIMARY KEY,
     prezzoDiPartenza DECIMAL(10,2) NOT NULL,
-    scadenza DATE NOT NULL,
+    scadenza TIMESTAMP NOT NULL,
     FOREIGN KEY (lavoro_ID) REFERENCES Lavoro(ID),
     CHECK (prezzoDiPartenza > 0)
 );
@@ -96,7 +95,7 @@ CREATE TABLE Pubblico (
 CREATE TABLE Offerta (
     lavoro_ID INT NOT NULL,
     ID INT NOT NULL,
-    dataOfferta DATE NOT NULL,
+    dataOfferta TIMESTAMP NOT NULL,
     somma DECIMAL(10,2) NOT NULL,
     utente_ID INT NOT NULL,
     PRIMARY KEY (lavoro_ID, ID),
@@ -118,7 +117,7 @@ CREATE TABLE MiPiace (
 CREATE TABLE Commento (
     ID INT AUTO_INCREMENT PRIMARY KEY,
     contenuto TEXT NOT NULL,
-    dataCommento DATE NOT NULL,
+    dataCommento TIMESTAMP NOT NULL,
     utente_ID INT NOT NULL,
     lavoro_ID INT NOT NULL,
     FOREIGN KEY (utente_ID) REFERENCES Utente(ID),
@@ -138,7 +137,7 @@ CREATE TABLE Risponde (
 CREATE TABLE Capitolo (
     lavoro_ID INT NOT NULL,
     numeroCapitolo INT NOT NULL,
-    dataAggiornamento DATE NOT NULL,
+    dataAggiornamento TIMESTAMP NOT NULL,
     contenuto TEXT NOT NULL,
     PRIMARY KEY (lavoro_ID, numeroCapitolo),
     FOREIGN KEY (lavoro_ID) REFERENCES Lavoro(ID)
