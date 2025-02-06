@@ -73,8 +73,7 @@ CREATE TABLE InVendita (
     prezzoDiPartenza DECIMAL(10,2) NOT NULL,
     scadenza DATE NOT NULL,
     FOREIGN KEY (lavoro_ID) REFERENCES Lavoro(ID),
-    CHECK (prezzoDiPartenza > 0),
-    CHECK (scadenza >= CURRENT_DATE)
+    CHECK (prezzoDiPartenza > 0)
 );
 
 -- Tabella Privato
