@@ -31,7 +31,7 @@ CREATE TABLE CartaPagamento (
     proprietario VARCHAR(100) NOT NULL,
     utente_ID INT NOT NULL,
     FOREIGN KEY (utente_ID) REFERENCES Utente(ID),
-    CHECK (numeroCarta REGEXP '^[0-9]{8, 19}$'),
+    CHECK (numeroCarta REGEXP '^[0-9]{8,19}$'),
     CHECK (proprietario REGEXP '^[A-Za-z ]+$')
 );
 
