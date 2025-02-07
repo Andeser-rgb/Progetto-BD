@@ -136,7 +136,7 @@ CREATE TABLE Risponde (
 -- Tabella Capitolo
 CREATE TABLE Capitolo (
     lavoro_ID INT NOT NULL,
-    numeroCapitolo INT NOT NULL AUTO_INCREMENT,
+    numeroCapitolo INT NOT NULL,
     dataAggiornamento TIMESTAMP NOT NULL,
     contenuto TEXT NOT NULL,
     PRIMARY KEY (lavoro_ID, numeroCapitolo),
