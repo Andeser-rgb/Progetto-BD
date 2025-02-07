@@ -32,7 +32,7 @@ CREATE TABLE CartaPagamento (
     utente_ID INT NOT NULL,
     FOREIGN KEY (utente_ID) REFERENCES Utente(ID),
     CHECK (numeroCarta REGEXP '^[0-9]{8,19}$'),
-    CHECK (proprietario REGEXP '^[A-Za-z ]+$')
+    CHECK (proprietario REGEXP '^[A-Za-z. ]+$')
 );
 
 -- Tabella Fattura
