@@ -6,10 +6,10 @@ CREATE TABLE Utente (
     email VARCHAR(255) NOT NULL,
     passwordH VARCHAR(255) NOT NULL,
     via VARCHAR(100) NOT NULL,
-    numero VARCHAR(10) NOT NULL,
-    citta VARCHAR(50) NOT NULL,
-    paese VARCHAR(50) NOT NULL,
-    codice_postale CHAR(5) NOT NULL,
+    numero VARCHAR(32) NOT NULL,
+    citta VARCHAR(255) NOT NULL,
+    paese VARCHAR(255) NOT NULL,
+    codice_postale CHAR(16) NOT NULL,
     CHECK (email LIKE '%@%.%'),
 	CHECK (codice_postale REGEXP '^[A-Za-z0-9 -]+$')
 );
@@ -56,9 +56,9 @@ CREATE TABLE Lingua (
 CREATE TABLE Lavoro (
     ID INT AUTO_INCREMENT PRIMARY KEY,
     titolo VARCHAR(255) NOT NULL,
-    rating VARCHAR(10) NOT NULL,
+    rating enum('G', 'T', 'M', 'E') NOT NULL,
     dataPubblicazione TIMESTAMP NOT NULL,
-    numeroCapitoli INT NOT NULL,
+    numeroCapitoli INT NOT NULL DEFAULT 0,
     utente_ID INT NOT NULL,
     codiceLingua VARCHAR(50) NOT NULL,
     FOREIGN KEY (utente_ID) REFERENCES Utente(ID),
@@ -136,7 +136,7 @@ CREATE TABLE Risponde (
 -- Tabella Capitolo
 CREATE TABLE Capitolo (
     lavoro_ID INT NOT NULL,
-    numeroCapitolo INT NOT NULL,
+    numeroCapitolo INT NOT NULL AUTO_INCREMENT,
     dataAggiornamento TIMESTAMP NOT NULL,
     contenuto TEXT NOT NULL,
     PRIMARY KEY (lavoro_ID, numeroCapitolo),
