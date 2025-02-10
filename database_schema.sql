@@ -23,10 +23,8 @@ CREATE TABLE Alias (
 );
 
 -- Tabella CartaPagamento
--- scadenza DATE o CHAR(5)?
 CREATE TABLE CartaPagamento (
     numeroCarta CHAR(19) PRIMARY KEY,
-    -- scadenza DATE NOT NULL,
     scadenza CHAR(5) NOT NULL,
     proprietario VARCHAR(100) NOT NULL,
     utente_ID INT NOT NULL,
@@ -103,7 +101,7 @@ CREATE TABLE Offerta (
     CHECK (somma > 0)
 ) ;
 
--- Tabella MiPiace (ex Like, rinominata per evitare conflitti con parole riservate)
+-- Tabella MiPiace
 CREATE TABLE MiPiace (
     utente_ID INT NOT NULL,
     lavoro_ID INT NOT NULL,
