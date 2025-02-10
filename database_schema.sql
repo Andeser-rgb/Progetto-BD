@@ -38,7 +38,6 @@ CREATE TABLE CartaPagamento (
 CREATE TABLE Fattura (
     numeroFattura INT AUTO_INCREMENT PRIMARY KEY,
     dataFattura TIMESTAMP NOT NULL,
-    modalitaPagamento ENUM('carta', 'bonifico', 'paypal') NOT NULL,
     prezzo DECIMAL(10,2) NOT NULL,
     CHECK (prezzo > 0)
 );
