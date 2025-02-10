@@ -33,20 +33,19 @@ CREATE TABLE CartaPagamento (
     FOREIGN KEY (utente_ID) REFERENCES Utente(ID),
     CHECK (numeroCarta REGEXP '^[0-9]{8,19}$'),
     CHECK (proprietario REGEXP '^[A-Za-z. ]+$')
+
 );
 
 -- Tabella Fattura
 CREATE TABLE Fattura (
     numeroFattura INT AUTO_INCREMENT PRIMARY KEY,
     dataFattura TIMESTAMP NOT NULL,
-    -- Non sono sicuro che questo attributo vada lasciato (bonifico sicuramente richiederebbe modifiche, paypal non so)
     modalitaPagamento ENUM('carta', 'bonifico', 'paypal') NOT NULL,
     prezzo DECIMAL(10,2) NOT NULL,
     CHECK (prezzo > 0)
 );
 
 -- Tabella Lingua
--- TODO: La chiave ora è il codice della lingua, vanno cambiate le query
 CREATE TABLE Lingua (
     codiceLingua CHAR(2) PRIMARY KEY,
     nomeLingua VARCHAR(30) NOT NULL
@@ -60,7 +59,7 @@ CREATE TABLE Lavoro (
     dataPubblicazione TIMESTAMP NOT NULL,
     numeroCapitoli INT NOT NULL DEFAULT 0,
     utente_ID INT NOT NULL,
-    codiceLingua VARCHAR(50) NOT NULL,
+    codiceLingua CHAR(2) NOT NULL,
     FOREIGN KEY (utente_ID) REFERENCES Utente(ID),
     FOREIGN KEY (codiceLingua) REFERENCES Lingua(codiceLingua),
     CHECK (numeroCapitoli > 0)
