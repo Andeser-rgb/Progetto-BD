@@ -39,7 +39,7 @@ CREATE TABLE Fattura (
 -- Tabella Lingua
 CREATE TABLE Lingua (
     codiceLingua CHAR(2) PRIMARY KEY,
-    nomeLingua VARCHAR(30) NOT NULL
+    nomeLingua VARCHAR(30) NOT NULL UNIQUE
 );
 
 -- Tabella Lavoro
@@ -136,7 +136,7 @@ CREATE TABLE Capitolo (
 -- Tabella Tag
 CREATE TABLE Tag (
     ID INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(50) NOT NULL
+    nome VARCHAR(50) NOT NULL UNIQUE
 );
 
 -- Tabella ClassificatoDa
