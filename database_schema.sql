@@ -33,6 +33,8 @@ CREATE TABLE Fattura (
     numeroFattura INT AUTO_INCREMENT PRIMARY KEY,
     dataFattura TIMESTAMP NOT NULL,
     prezzo DECIMAL(10,2) NOT NULL,
+    utente_ID INT NOT NULL,
+    FOREIGN KEY (utente_ID) REFERENCES Utente(ID),
     CHECK (prezzo > 0)
 );
 
